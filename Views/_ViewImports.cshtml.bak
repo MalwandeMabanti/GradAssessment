@@ -1,0 +1,3 @@
+﻿@using TestingTesting
+@using TestingTesting.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

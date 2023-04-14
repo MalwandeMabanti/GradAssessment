@@ -1,0 +1,36 @@
+﻿@* @{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div> *@
+
+@* @using DevExtremeAspNetCoreApp3.Models *@
+@using TestingTesting.Models
+
+<h2>Home</h2>
+
+@(Html.DevExtreme().DataGrid<WeatherModel>()
+    .ShowBorders(true)
+    .DataSource(d => d.Mvc()
+        .Controller("Weather")
+        .LoadAction("Get"))
+        //.Key("OrderID"))
+    .Columns(columns => {
+        columns.AddFor(m => m.location.name);
+        columns.AddFor(m => m.location.region);
+        columns.AddFor(m => m.location.country);
+        columns.AddFor(m => m.location.lat);
+        columns.AddFor(m => m.location.lon);
+        columns.AddFor(m => m.Current.temp_c);
+        
+    })
+    .Paging(p => p.PageSize(10))
+    .FilterRow(f => f.Visible(true))
+    .HeaderFilter(f => f.Visible(true))
+    .GroupPanel(p => p.Visible(true))
+    .Grouping(g => g.AutoExpandAll(false))
+    .RemoteOperations(true)
+)
