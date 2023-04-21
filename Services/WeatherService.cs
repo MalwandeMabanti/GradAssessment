@@ -31,6 +31,7 @@ namespace TestingTesting.Services
 
             if(response.IsSuccessStatusCode) 
             {
+
                 content = await response.Content.ReadAsStringAsync();
             }
             return content;
