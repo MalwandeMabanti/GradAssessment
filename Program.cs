@@ -1,8 +1,17 @@
+using FluentValidation;
+using TestingTesting.Interface;
+using TestingTesting.Services;
+using WebAPI.Validators;
+//using TestingTesting.Validate.
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 builder.Services.AddHttpClient();
+builder.Services.AddScoped<IWeatherService, WeatherService>();
+builder.Services.AddScoped<IValidator<WeatherModel>, WeatherValidator>();
+
 
 var app = builder.Build();
 

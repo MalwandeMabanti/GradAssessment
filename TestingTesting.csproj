@@ -5,6 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Imterface\**" />
+    <Content Remove="Imterface\**" />
+    <EmbeddedResource Remove="Imterface\**" />
+    <None Remove="Imterface\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0-preview1" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
