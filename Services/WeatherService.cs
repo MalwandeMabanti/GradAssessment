@@ -1,6 +1,4 @@
-﻿
-
-namespace TestingTesting.Services
+﻿namespace TestingTesting.Services
 {
     using System.Net.Http;
     using TestingTesting.Interface;
@@ -16,25 +14,47 @@ namespace TestingTesting.Services
             _httpClient = httpClient;
         }
 
-        public async Task<HttpResponseMessage> SendGetRequestAsync()
+        public async Task<List<HttpResponseMessage>> SendGetRequestAsync()
         {
-            return await _httpClient.GetAsync("http://api.weatherapi.com/v1/current.json?key=7b62b2c73b3c49f1a5e104336231404&q=Johannesburg&aqi=no");
+            List<HttpResponseMessage> cityResponse = new List<HttpResponseMessage>();
+
+            foreach(var city in this.cities()) 
+            {
+                cityResponse.Add(await _httpClient.GetAsync("http://api.weatherapi.com/v1/current.json?key=7b62b2c73b3c49f1a5e104336231404&q=" + city + "&aqi=no"));
+            }
+            return cityResponse;
         }
 
-        public async Task<string> ReadResponseContentAsync()
+        public async Task<List<string>> ReadResponseContentAsync()
         {
-            var response = await this.SendGetRequestAsync();
+            var responses = await this.SendGetRequestAsync();
 
-            string content = "";
+            List<string> cityStrings = new List<string>(); 
 
-            //SuccessCode = response.IsSuccessStatusCode;
 
-            if(response.IsSuccessStatusCode) 
+            foreach(var response in responses) 
             {
-
-                content = await response.Content.ReadAsStringAsync();
+                string content = "";
+                if (response.IsSuccessStatusCode) 
+                {
+                    content = await response.Content.ReadAsStringAsync();
+                }
+                cityStrings.Add(content);
             }
-            return content;
+            return cityStrings;
+        }
+
+        private List<string> cities()
+        {
+            List<string> cities = new List<string>()
+            {
+                "Durban",
+                "Johannesburg",
+                "Pretoria"
+            };
+
+            return cities;
+
         }
     }
 }

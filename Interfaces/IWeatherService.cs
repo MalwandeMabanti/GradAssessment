@@ -3,8 +3,8 @@
     public interface IWeatherService
     {
 
-        Task<HttpResponseMessage> SendGetRequestAsync();
+        Task<List<HttpResponseMessage>> SendGetRequestAsync();
 
-        Task<string> ReadResponseContentAsync();
+        Task<List<string>> ReadResponseContentAsync();
     }
 }

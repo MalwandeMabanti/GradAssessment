@@ -30,9 +30,6 @@
             this.RuleFor(_ => _.current.temp_c)
                 .NotEmpty();
 
-            this.RuleFor(_ => _.current.is_day)
-                .NotEmpty();
-
             this.RuleFor(_ => _.current.wind_kph)
                 .NotEmpty();
 

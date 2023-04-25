@@ -9,6 +9,7 @@ using TestingTesting.Interface;
 using TestingTesting.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using FluentValidation.Results;
 
 namespace DevExtreme.NETCore.Demos.Controllers {
 
@@ -35,43 +36,33 @@ namespace DevExtreme.NETCore.Demos.Controllers {
         [HttpGet]
         public async Task<ActionResult<WeatherModel?>> Get(DataSourceLoadOptions loadOptions)
         {
-            var s = await this.weatherService.ReadResponseContentAsync();
+            List<string> cityDetails = await this.weatherService.ReadResponseContentAsync();
 
-            
+            List<WeatherModel> forecasts = new List<WeatherModel>();
 
-            
-            var model = JsonConvert.DeserializeObject<WeatherModel>(s);
-            
-
-            
-
-
-            if (model == null)
+            foreach (var city in cityDetails) 
             {
-                this.ModelState.AddModelError("all", "1 one or more properties malformed");
-                return this.BadRequest(this.ModelState);
+                var model = JsonConvert.DeserializeObject<WeatherModel>(city);
+                if (model == null) 
+                {
+                    this.ModelState.AddModelError("all", "1 one or more properties malformed");
+                    return this.BadRequest(this.ModelState);
+
+                }
+                var results = validator.Validate(model, _ => _.IncludeRuleSets("Get"));
+
+                if (!results.IsValid) 
+                {
+                    results.AddToModelState(this.ModelState);
+
+                    return this.BadRequest(this.ModelState);
+                }
+
+
+                forecasts.Add(model);
             }
-
-            //model.location.name = null;
-
-            var result = this.validator.Validate(model, _ => _.IncludeRuleSets("Get"));
-            //var result = this.validator.Validate(model, _ => _.);
-
             
-
-            if (!result.IsValid)
-            {
-                result.AddToModelState(this.ModelState);
-
-                return this.BadRequest(this.ModelState);
-            }
-
-            var forecast = new List<WeatherModel>
-            {
-                model,
-            };
-
-            return Ok(forecast);
+            return Ok(forecasts);
 
 
             //if (true)
