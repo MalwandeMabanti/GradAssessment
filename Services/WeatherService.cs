@@ -50,7 +50,7 @@
             {
                 "Durban",
                 "Johannesburg",
-                "Pretoria"
+                "Pretoria",
             };
 
             return cities;

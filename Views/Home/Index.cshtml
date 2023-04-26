@@ -17,19 +17,24 @@
     .DataSource(d => d.Mvc()
         .Controller("Weather")
         .LoadAction("Get"))
-        //.Key("OrderID"))
     .Columns(columns => {
-        columns.AddFor(m => m.location.name);
-        columns.AddFor(m => m.location.localtime);
-        columns.AddFor(m => m.current.last_updated);
-        columns.AddFor(m => m.current.temp_c);
-        columns.AddFor(m => m.current.wind_kph);
-        columns.AddFor(m => m.current.wind_degree);
-        columns.AddFor(m => m.current.wind_dir);
-        columns.AddFor(m => m.current.humidity);
-        
-        //columns.AddFor(m => m.Current.temp_c);
-        
+     
+        columns.AddFor(m => m.location.name)
+            .Caption("City");
+        columns.AddFor(m => m.location.localtime)
+            .Caption("Local Time");
+        columns.AddFor(m => m.current.last_updated)
+            .Caption("Last Updated");
+        columns.AddFor(m => m.current.temp_c)
+            .Caption("Temperature C");
+        columns.AddFor(m => m.current.wind_kph)
+            .Caption("Wind k/h");
+        columns.AddFor(m => m.current.wind_degree)
+            .Caption("Wind Degree");
+        columns.AddFor(m => m.current.wind_dir)
+            .Caption("Wind Direction");
+        columns.AddFor(m => m.current.humidity)
+            .Caption("Humidity");
     })
     .Paging(p => p.PageSize(5))
     .FilterRow(f => f.Visible(true))
